@@ -3,19 +3,23 @@ import { AppTextInput } from './AppTextInput';
 import { useState } from 'react';
 import { AppButton } from './AppButton';
 
-const numberToGuess = Math.floor(Math.random() * 100) + 1;
+interface GameProps {
+  numberToGuess?: number; // Optional prop for testing purposes
+}
 
-const Game = () => {
+const Game = ({ numberToGuess }: GameProps) => {
+  const actualNumberToGuess =
+    numberToGuess ?? Math.floor(Math.random() * 100) + 1;
   const [guess, setGuess] = useState<number>();
   const [feedback, setFeedback] = useState<string>('');
 
   const handleGuess = (e: React.FormEvent) => {
     e.preventDefault();
-    if (guess === numberToGuess) {
+    if (guess === actualNumberToGuess) {
       setFeedback('Congratulations! You guessed correctly.');
-    } else if (guess && guess > numberToGuess) {
+    } else if (guess && guess > actualNumberToGuess) {
       setFeedback(`Too high! Try a lower number than ${guess}.`);
-    } else if (guess && guess < numberToGuess) {
+    } else if (guess && guess < actualNumberToGuess) {
       setFeedback(`Too low! Try a higher number than ${guess}.`);
     } else {
       setFeedback('Please enter a valid number between 1 and 100.');
